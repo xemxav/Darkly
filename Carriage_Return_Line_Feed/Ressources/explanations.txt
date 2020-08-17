@@ -1,0 +1,14 @@
+On the page http://192.168.56.101/index.php?page=recover we inspect tht html.
+
+We can find a form with a post method and an input with it's type equal to hidden
+
+They are different way to work around :
+
+- changing the html code : deleting hidden with the navigator tools. A field shows
+and we put a random value (or our email) then submit
+
+- sending a curl request through a terminal :
+curl -d "Submit=Submit&mail=autre" -X POST http://192.168.56.101/index.php\?page\=recover
+
+how to secure :
+- do not send on a hidden field the email for the account

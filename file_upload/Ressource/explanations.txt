@@ -1,0 +1,9 @@
+On the page http://192.168.56.102/?page=upload we aim to upload a different kind of file than what is demanded/
+
+we want to send whatever we want on the server.
+Inspecting the page we find a MAX_FILE_SIZE that we can modify.
+We created a script to craft a custom request to send the file : upload.py
+
+How to secure :
+- check on server side the magic number and the size.
+- do not execute anything coming from users

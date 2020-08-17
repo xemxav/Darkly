@@ -1,0 +1,12 @@
+On every page there is links to social media pages with the following form :
+
+/index.php?page=redirect&site=twitter
+
+We will try to spoof the header function in order to get the proper redirection for the sign in page :
+
+/index.php?page=redirect&site=signin
+
+and voila !
+
+hot to secure :
+- sanitize the input

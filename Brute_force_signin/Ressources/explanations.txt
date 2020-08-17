@@ -1,0 +1,12 @@
+We did not find a sql injection possibility on the page http://192.168.56.102/?page=signin
+
+Therefore we decide to bruteforce the signin page.
+
+We use the login 'Admin' or 'Root' because they are the most common.
+
+We a bruteforce script : password_brute_force.py that takes a list of most used password called john.txt that we found
+here : https://wiki.skullsecurity.org/Passwords
+
+To secure this it is possible to :
+- implement limitation on the number of request possible by an ip and then block it
+- use custom password

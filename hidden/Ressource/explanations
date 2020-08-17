@@ -1,0 +1,28 @@
+if we do a nmap on the ip of the machine we get the following result :
+
+nmap -v -A 192.168.56.101
+
+PORT     STATE SERVICE VERSION
+80/tcp   open  http    nginx 1.8.0
+|_http-favicon: Unknown favicon MD5: E7D08792AE6EC9DBBF3CEBFB48EE4057
+| http-methods:
+|_  Supported Methods: GET HEAD POST
+| http-robots.txt: 2 disallowed entries
+|_/whatever /.hidden
+|_http-server-header: nginx/1.8.0
+|_http-title: BornToSec - Web Section
+4242/tcp open  ssh     OpenSSH 5.9p1 Debian 5ubuntu1.7 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   1024 c1:03:76:40:29:e8:ab:f6:8a:9f:1c:71:6e:23:e0:58 (DSA)
+|   2048 89:95:1a:c3:7c:1b:fc:3c:34:1d:76:d5:c9:fa:86:03 (RSA)
+|_  256 09:86:1a:be:13:a5:a1:0c:7f:f7:55:50:ac:7a:c7:1a (ECDSA)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernelinux
+
+if we check /.hidden we can find a treeview of link.
+26 links, each linking to a treeviez of 26 links, each going to a treeview of 26 links ...
+it calls for recursivity !
+Because with 4 layers it gives us 26^4 = 456976 links to study and
+We crafted a python crawler to read each different README
+
+how to secure :
+- make sure to delete or protect every file not useful for the website and that can be access

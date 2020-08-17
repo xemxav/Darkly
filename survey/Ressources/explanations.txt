@@ -1,0 +1,11 @@
+on the page survey we can see the gravelous joke 69 written several time
+
+inspecting the document we see it is a form that is submeting automaticaly when the value of the grade is changing
+it is a post method with the following arguments :
+    - subject
+    - value
+
+we craft a post request setting those two value at '69' ... and voilà ...
+
+How to secure :
+ - check the value server side

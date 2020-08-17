@@ -1,0 +1,14 @@
+We know that the pages are generated throught the url arg 'page=...'.
+We can guess that the server use it to call the page with that name and include the page into 'index.php'.
+So we try to play by adding '../' to watch if we can find some content of the server.
+We get a special popup with a different message than the others make us think that we have some to do with this technic.
+We add mulitple '../' and 'etc/passwd' at the end which contains informations about the users.
+We get the flag.
+
+
+How to prevent:
+	- replace '../' by ''.
+	- relace the NULL_BYTE by '';
+	- force the '.php' (the fiel has to be include without the extension and we add manually the extension on the server side).
+	- include the filename directly in the script and test the url with a name associated.
+	- create an dico : key represent the name of the page and th value the filename. If the key exists, include the associated file.

